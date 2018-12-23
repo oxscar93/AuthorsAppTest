@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <p style="text-align: center">New Publication</p>
+</div>
+<div class="modal-body">
+  <form [formGroup]="publicationForm">
+  
+    <div class="form-group">
+        <label>
+            Title:
+            <input class="form-control" type="text" formControlName="firstName">
+          </label>
+    </div>
+    <div class="form-group">
+        <label>
+            Description:
+            <input class="form-control" type="text" formControlName="lastName">
+          </label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="onOk()">Add</button>
+  <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+</div>

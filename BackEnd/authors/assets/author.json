@@ -1,0 +1,12 @@
+{
+    "id": "f1bc8798-cad9-4432-9278-c2d73b2e0194",
+    "name": "Robert",
+    "email": "robert@gmail.com",
+    "publicationList": [
+	    {
+	    	"title": "something new",
+	    	"body": "a body test",
+	    	"date": "07/02/2002"
+	    }
+    ]
+}

@@ -1,0 +1,139 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: authors # NOTE: update this with your service name
+profile: default
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+custom:
+  tableName: 'authors-${self:provider.stage}'
+  dynamodb:
+    start:
+      migrate: true
+      seed: true
+    seed:
+      domain:
+        sources:
+          - table: author
+            sources: [./assets/author.json]
+
+resources:
+  Resources:
+    authors:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: author
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1 
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["TodosDynamoDBTable", "Arn" ] }
+  environment:
+    AUTHORS_TABLE: ${self:custom.tableName}
+
+functions:
+  create:
+    handler: handler.addAuthor
+    events:
+      - http:
+          path: add-author
+          method: post
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  retrieve:
+    handler: handler.getAuthorList
+    events:
+      - http:
+          path: get-author-list
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  retrieveOne:
+    handler: handler.getAuthor
+    events:
+      - http:
+          path: get-author/{id}
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  remove:
+    handler: handler.delAuthor
+    events:
+      - http:
+          path: del-author/{id}
+          method: delete
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  update:
+    handler: handler.updateAuthor
+    events:
+      - http:
+          path: update-author/{id}
+          method: put
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date           

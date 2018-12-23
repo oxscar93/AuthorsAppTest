@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PublicationService } from '../publication-dialog/publication-dialog.service';
 
 @Component({
   selector: 'app-publication-list',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicationListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private publicationDialogService : PublicationService) { }
 
   ngOnInit() {
+  }
+
+  addPublication(){
+    this.publicationDialogService.addPublication(null);
   }
 
 }
