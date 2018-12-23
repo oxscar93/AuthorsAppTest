@@ -1,16 +1,8 @@
 <div class="sidebar-container"> 
       <ul>
-        <li>
-          John
-        </li>
-        <li>
-          Paul
-        </li>
-        <li>
-          Roger
-        </li>
-        <li>
-          Brian
-        </li>
+        <li (click)="showPublicationList(author.id)" *ngFor="let author of authorList">
+          <p>{{author.name}}</p>
+          <span>{{author.email}}</span>
+        </li>        
       </ul>
 </div>

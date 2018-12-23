@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import {DialogState } from '../_models/dialog-state';
 @Injectable()
-export class PublicationService {
+export class PublicationDialogService {
 
   constructor(private modalService: NgbModal, private state: DialogState) {}
 
