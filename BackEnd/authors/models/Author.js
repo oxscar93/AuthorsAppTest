@@ -12,12 +12,15 @@ const typeConfig = {
   title: 'regexp',
 };
 
-const Author = ({ id, name, email, publicationList }) => {
+const Author = ({ id, name, email, title, body, publicationId, date }) => {
   const getInfo = () => ({
     id,
     name,
     email,
-    publicationList
+    title,
+    date,
+    body,
+    publicationId
   });
 
   return {
@@ -26,40 +29,53 @@ const Author = ({ id, name, email, publicationList }) => {
 };
 
 // internal function
-const getFromDynamo = dynamoObj => (
+const getFirstFromDynamo = dynamoObjList => (
   Author(
-    Object.assign(dynamoObj))
+    Object.assign(dynamoObjList[0]))
 );
 
+const getObjFromDynamo = dynamoObj => {
+ 
+  if (dynamoObj.date){
+     dynamoObj.date= new Date(dynamoObj.date);
+  }
+  console.log(dynamoObj)
+  return Author(
+    Object.assign(dynamoObj))
+}
 Author.update = (id, newValues) => (
   dynamoManager.retrieveOne(id)
 
-  .then(author => (
-    dynamoManager.putItem({
-      info: Object.assign(getFromDynamo(author).getInfo(), newValues),
-      id,
-    })
+  .then(author => 
+    (dynamoManager.putItem(
+      Object.assign(getFirstFromDynamo(author).getInfo(), newValues
+    ))
   ))
 
   .then(author => (
-    Promise.resolve(getFromDynamo(author))
+    Promise.resolve(getObjFromDynamo(author))
   ))
 );
 
-Author.create = ({ name, email, publicationList}) => {
-  const id = uuid();
-  
+Author.create = ({ authorId, name, email, title, body, publicationDate}) => {
+  const id = !authorId ? uuid() : authorId;
+  const publicationId = uuid();
+  const date = new Date(publicationDate).getTime();
+ 
   return dynamoManager
 
     .putItem({
       id,
       name,
       email,
-      publicationList
+      title,
+      date,
+      body,
+      publicationId
     })
 
     .then(author => (
-      Promise.resolve(getFromDynamo(author))
+      Promise.resolve(getObjFromDynamo(author))
     ));
 };
 
@@ -67,23 +83,41 @@ Author.retrieve = id => (
   dynamoManager.retrieveOne(id)
 
   .then(result => (
-    Promise.resolve(getFromDynamo(result))
+    Promise.resolve(getFirstFromDynamo(result))
   ))
 );
 
-Author.retrieveAll = searchParams => (
-  dynamoManager.retrieveAll(["id", "name", "email"], 
-                              searchParams, typeConfig)
+Author.retrieveAllById = id => (
+  dynamoManager.retrieveOne(id)
 
-  .then(searchResult => (
-    Promise.resolve(Object.assign(searchResult, {
-      results: searchResult.results.map(result => getFromDynamo(result)),
+  .then(result => (
+    Promise.resolve(result)
+  ))
+);
+
+Author.retrieveSortedByDate = (id, sort) => (
+  dynamoManager.retrieveSortedByDate(id, sort)
+
+  .then(result => (
+    Promise.resolve(Object.assign(result, {
+      results: result.map(res => getObjFromDynamo(res)),
     }))
   ))
 );
 
-Author.remove = id => (
-  dynamoManager.remove(id)
+Author.retrieveAll = searchParams => (
+  dynamoManager.retrieveAll(["name", "email", "id"], 
+                              searchParams, typeConfig)
+
+  .then(searchResult => (
+    Promise.resolve(Object.assign(searchResult, {
+      results: searchResult.results.map(result => getObjFromDynamo(result)),
+    }))
+  ))
+);
+
+Author.remove = (id, publicationId) => (
+  dynamoManager.remove(id, publicationId)
 );
 
 module.exports = Author;

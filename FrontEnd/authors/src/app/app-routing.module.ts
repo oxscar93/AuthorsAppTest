@@ -7,7 +7,7 @@ import { PublicationResolverService } from './publication-list/publication-resol
 const routes: Routes = 
 
 [{path: 'publication-list', component:  PublicationListComponent,  runGuardsAndResolvers: 'always',
-  resolve:{publicationList: PublicationResolverService}}];
+  resolve:{entity: PublicationResolverService}}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

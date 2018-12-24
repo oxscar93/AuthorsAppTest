@@ -15,14 +15,15 @@ export class PublicationService {
                                 { 'Content-Type': 'application/json'})});
 
 
-  getAuthor(id:string) : Observable<any>  {
-      return this.getEntity("/get-author/" + id,
+  getPublicationList(id:string, sortDesc? :boolean) : Observable<Array<AuthorPublication>>  {   
+      var sort = sortDesc ? sortDesc : false;
+      return this.getEntity("/get-publication-list/" + id + "/" + sort,
               this.extractPublicationData).pipe(map(r => {
               return r;
             }));      
  }
 
-  private getEntity(resource: string, extractDataFunc: any) : Observable<AuthorPublication> {
+  private getEntity(resource: string, extractDataFunc: any) : Observable<Array<AuthorPublication>> {
       return this.http.get(this.base + resource, this.options)
         .pipe(map(extractDataFunc))
   }
@@ -30,9 +31,9 @@ export class PublicationService {
   private extractPublicationData(res: Response) {
       let body = res.json();
       var resultList = [];
-      debugger;
-      body.publicationList.forEach(el => {      
-            resultList.push(new AuthorPublication(el.title, el.body, null));      
+     
+      body.forEach(el => {      
+            resultList.push(new AuthorPublication(el.title, el.body, new Date(el.date)));      
      });
 
     return resultList;

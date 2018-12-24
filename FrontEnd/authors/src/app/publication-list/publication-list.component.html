@@ -1,14 +1,29 @@
-<div>
-    <div class="card" *ngFor="let publication of publicationList">
-        <div class="card-body">
-          <h5 class="card-title">{{publication.title}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{publication.date}}</h6>
-          <p class="card-text">{{publication.body}}</p>
+<div class="container mt-5">
+    <div class="col-md-8">
+        <div>
+            <input class="form-control" placeholder="Search By title">
+            <div class="form-group mt-2">
+                <button class="btn btn-info">Search</button>           
+            </div>
+            <nav>
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger mr-1" (click)="addPublication()">Add Publication</button>   
+                    <button type="button" class="btn btn-success" (click)="getPublicationListSortedByDate(!shouldSortByDesc)">{{sortOrderBtnTitle}}</button>                         
+                </div>
+           </nav>      
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mt-2" *ngFor="let publication of publicationList">
+            <div class="card-body">
+            <h5 class="card-title">{{publication.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Publication Date: {{publication.date.toDateString()}}</h6>
+            <p class="card-text">{{publication.body}}</p>
+            </div>
         </div>
     </div>
 </div>
-
-<div (click)="addPublication()" class="fab"> + </div>
 
 <ng-template publicationDialog>
     <app-publication-dialog></app-publication-dialog>

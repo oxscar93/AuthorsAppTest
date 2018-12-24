@@ -36,13 +36,40 @@ resources:
         TableName: author
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: S
+            AttributeType: 'S'
+          - AttributeName: date
+            AttributeType: 'N'
+          - AttributeName: publicationId
+            AttributeType: 'S'
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: publicationId
+            KeyType: RANGE
         ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: author_publication_idx
+            KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+            - AttributeName: date
+              KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
+          - IndexName: author_idx
+            KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
 
 plugins:
   - serverless-dynamodb-local
@@ -95,7 +122,7 @@ functions:
             headers:
               - Content-Type
               - X-Amz-Date
-
+  
   retrieveOne:
     handler: handler.getAuthor
     events:
@@ -110,11 +137,25 @@ functions:
               - Content-Type
               - X-Amz-Date
 
+  retrieveById:
+    handler: handler.getPublicationList
+    events:
+      - http:
+          path: get-publication-list/{id}/{sort}
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
   remove:
     handler: handler.delAuthor
     events:
       - http:
-          path: del-author/{id}
+          path: del-author/{id}/{publicationId}
           method: delete
           integration: lambda-proxy
           cors:

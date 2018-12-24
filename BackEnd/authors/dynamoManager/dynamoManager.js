@@ -10,6 +10,8 @@ const generateSearchParams = (projectParams, searchParams, typeConfig) => {
   console.log(projectParams)
   const AttributesToGet = projectParams;
 
+  if (!AttributesToGet) return {};
+
   if (Object.keys(searchParams).length === 0) {
     return {AttributesToGet};
   }
@@ -27,7 +29,7 @@ const generateSearchParams = (projectParams, searchParams, typeConfig) => {
   return {
     FilterExpression,
     ExpressionAttributeValues,
-    ProjectionExpression
+    AttributesToGet
   };
 };
 
@@ -52,10 +54,12 @@ module.exports = (TableName) => {
 
   const retrieveOne = id => (
     new Promise((resolve, reject) => {
-      dynamoDb.get({
+      dynamoDb.query({
         TableName,
-        Key: {
-          id,
+        IndexName: 'author_idx', // optional (if querying an index)
+        KeyConditionExpression: 'id = :value', // a string representing a constraint on the attribute
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+          ':value': id
         },
       }, (err, result) => {
         if (err) {
@@ -65,14 +69,44 @@ module.exports = (TableName) => {
           });
         }
 
-        if (!result.Item) {
+        if (result.Items.length == 0) {
           return reject({
             statusCode: 404,
-            code: 'Not foud.',
+            code: 'Not found.',
           });
         }
 
-        return resolve(result.Item);
+        return resolve(result.Items);
+      });
+    })
+  );
+
+  const retrieveSortedByDate = (id, sort) => (
+    new Promise((resolve, reject) => {
+      dynamoDb.query({
+        TableName,
+        IndexName: 'author_publication_idx', // optional (if querying an index)
+        KeyConditionExpression: 'id = :value', // a string representing a constraint on the attribute
+        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+          ':value': id
+        },
+        ScanIndexForward: sort
+      }, (err, result) => {
+        if (err) {
+          return reject({
+            statusCode: 500,
+            code: err.message,
+          });
+        }
+
+        if (result.Items.length == 0) {
+          return reject({
+            statusCode: 404,
+            code: 'Not found.',
+          });
+        }
+        console.log(result.Items)
+        return resolve(result.Items);
       });
     })
   );
@@ -97,12 +131,13 @@ module.exports = (TableName) => {
     })
   );
 
-  const remove = id => (
+  const remove = (id, publicationId) => (
     new Promise((resolve, reject) => {
       dynamoDb.delete({
         TableName,
         Key: {
           id,
+          publicationId
         },
       }, (err, result) => {
         if (err) {
@@ -122,5 +157,6 @@ module.exports = (TableName) => {
     remove,
     retrieveAll,
     retrieveOne,
+    retrieveSortedByDate
   };
 };

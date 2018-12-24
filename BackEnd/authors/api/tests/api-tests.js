@@ -3,29 +3,22 @@ var tester = request("http://localhost:3000");
 
 const author = {
     "name": "Robert",
-    "email": "asd",
-    "publicationList": [
-	    {
-	    	"title": "something new",
-	    	"body": "a body test",
-	    	"date": "07/02/2002"
-	    }
-    ]
+    "email": "asd",	   
+    "title": "something new",
+    "body": "a body test",
+    "publicationDate": "2001-07-07T03:00:00.000Z"
 };
 
 const authorUpdated  = {
     "name": "Robert",
     "email": "asd",
-    "publicationList": [
-	    {
-	    	"title": "title updated",
-	    	"body": "a body test",
-	    	"date": "07/02/2002"
-	    }
-    ]
+    "title": "title updated",
+    "body": "a body test",
+    "publicationDate": "2001-07-07T03:00:00.000Z"
 };
 
 var authorIdTest = "";
+var publicationIdTest = "";
 
 describe('POST /ADD-AUTHOR', function() {
     it('add author', function(done) {
@@ -52,12 +45,13 @@ describe('POST /ADD-AUTHOR', function() {
           done();
           console.log(res.body);
           authorIdTest = res.body.results[0].id;
+          publicationIdTest = res.body.results[0].publicationId;
         });
     });
  });
 
  describe('GET /GET-SINGLE-LIST', function() {
-    it('get all authors', function(done) {
+    it('get single author', function(done) {
         tester
         .get('/get-author/' + authorIdTest)
         .set('Accept', 'application/json')
@@ -88,7 +82,7 @@ describe('POST /ADD-AUTHOR', function() {
  describe('DELETE /DELETE-AUTHOR', function() {
     it('delete author', function(done) {
         tester
-        .delete('/del-author/' + authorIdTest)
+        .delete('/del-author/' + authorIdTest + "/" + publicationIdTest)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function(err, res) {

@@ -1,12 +1,9 @@
 {
     "id": "f1bc8798-cad9-4432-9278-c2d73b2e0194",
+    "publicationId": "f1bc8798-cad9-4432-9278-c2d73b2e01945",
     "name": "Robert",
-    "email": "robert@gmail.com",
-    "publicationList": [
-	    {
-	    	"title": "something new",
-	    	"body": "a body test",
-	    	"date": "07/02/2002"
-	    }
-    ]
+    "email": "robert@gmail.com",	  
+    "title": "something new",
+    "body": "a body test",
+    "date": 994388400000
 }

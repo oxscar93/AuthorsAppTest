@@ -10,3 +10,14 @@ export class AuthorPublication{
     body: string;
     date: Date;
 }
+
+export class AuthorPublicationResolve{
+
+    constructor(authorPublicationList:AuthorPublication[], authorId: string){
+        this.authorPublicationList = authorPublicationList;
+        this.authorId = authorId;
+    }
+
+    authorPublicationList: AuthorPublication[];
+    authorId: string;
+}

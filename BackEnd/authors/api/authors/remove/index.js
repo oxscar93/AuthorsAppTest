@@ -2,7 +2,7 @@ const Author = require('../../../models/Author');
 const ErrorHandler = require('../../../handlers/error.handler');
 
 module.exports = (event, context, callback) => {
-    Author.remove(event.pathParameters.id)
+    Author.remove(event.pathParameters.id, event.pathParameters.publicationId)
   
       .then(() => {
         callback(null, {
