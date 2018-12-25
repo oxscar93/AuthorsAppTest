@@ -12,8 +12,7 @@ export class PublicationDialogService {
    * @returns {Promise<any>} a promise that is fulfilled when the user chooses to confirm, and rejected when
    * the user chooses not to confirm, or closes the modal
    */
-  addPublication(options: IDialogOptions): Promise<any> {
-    this.state.options = options;
+  addPublication(): Promise<any> {
     this.state.modal = this.modalService.open(this.state.templates["publicationDialog"]);
     return this.state.modal.result;
   }

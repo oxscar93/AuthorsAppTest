@@ -61,7 +61,7 @@ Author.create = ({ authorId, name, email, title, body, publicationDate}) => {
   const id = !authorId ? uuid() : authorId;
   const publicationId = uuid();
   const date = new Date(publicationDate).getTime();
- 
+
   return dynamoManager
 
     .putItem({
@@ -112,6 +112,17 @@ Author.retrieveAll = searchParams => (
   .then(searchResult => (
     Promise.resolve(Object.assign(searchResult, {
       results: searchResult.results.map(result => getObjFromDynamo(result)),
+    }))
+  ))
+);
+
+Author.retrieveAllByTitle = (title, lastKey) => (
+  dynamoManager.retrieveAllByTitle(title, 5, lastKey)
+
+  .then(searchResult => (
+    Promise.resolve(Object.assign(searchResult, {
+      results: searchResult.result ? searchResult.result.map(res => getObjFromDynamo(res)) : [],
+      lastKey: searchResult.lastKey
     }))
   ))
 );

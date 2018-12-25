@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogState } from '../_models/dialog-state';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AuthorPublication } from '../publication-list/author-publication';
 
 @Component({
   selector: 'app-publication-dialog',
@@ -9,23 +10,20 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class PublicationDialogComponent implements OnInit {
 
-  ngOnInit(): void {
-
-  }
-
-  publicationForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-  });
-
+  authorPublication: AuthorPublication;
   options: IDialogOptions;
+
+  ngOnInit(): void {
+    this.authorPublication = new AuthorPublication(null, null, null);
+  }
 
   constructor(private state: DialogState) {
     this.options = state.options;
   }
 
   onOk() {
-    this.state.modal.close('confirmed');
+    this.authorPublication.publicationDate = new Date(Date.now());
+    this.state.modal.close(this.authorPublication);
   }
 
   onCancel() {

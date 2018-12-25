@@ -41,6 +41,8 @@ resources:
             AttributeType: 'N'
           - AttributeName: publicationId
             AttributeType: 'S'
+          - AttributeName: title
+            AttributeType: 'S'
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -64,6 +66,15 @@ resources:
           - IndexName: author_idx
             KeySchema:
             - AttributeName: id
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
+          - IndexName: title_idx
+            KeySchema:
+            - AttributeName: title
               KeyType: HASH
             Projection:
               ProjectionType: ALL
@@ -96,10 +107,10 @@ provider:
 
 functions:
   create:
-    handler: handler.addAuthor
+    handler: handler.add
     events:
       - http:
-          path: add-author
+          path: add
           method: post
           integration: lambda-proxy
           cors:
@@ -150,12 +161,25 @@ functions:
             headers:
               - Content-Type
               - X-Amz-Date
-
-  remove:
-    handler: handler.delAuthor
+  retrieveByTitle:
+    handler: handler.getPublicationListByTitle
     events:
       - http:
-          path: del-author/{id}/{publicationId}
+          path: get-publication-list-by-title/{title}
+          method: post
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  remove:
+    handler: handler.del
+    events:
+      - http:
+          path: del/{id}/{publicationId}
           method: delete
           integration: lambda-proxy
           cors:
@@ -166,10 +190,10 @@ functions:
               - X-Amz-Date
 
   update:
-    handler: handler.updateAuthor
+    handler: handler.update
     events:
       - http:
-          path: update-author/{id}
+          path: update/{id}
           method: put
           integration: lambda-proxy
           cors:

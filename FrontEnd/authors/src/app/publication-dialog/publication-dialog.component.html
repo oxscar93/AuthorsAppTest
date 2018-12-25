@@ -2,23 +2,22 @@
   <p style="text-align: center">New Publication</p>
 </div>
 <div class="modal-body">
-  <form [formGroup]="publicationForm">
-  
+  <form> 
     <div class="form-group">
         <label>
             Title:
-            <input class="form-control" type="text" formControlName="firstName">
+            <input class="form-control"  [(ngModel)]="authorPublication.title" name ="title" type="text">
           </label>
     </div>
     <div class="form-group">
         <label>
             Description:
-            <input class="form-control" type="text" formControlName="lastName">
-          </label>
+            <textarea class="form-control" [(ngModel)]="authorPublication.body" name ="body" type="text"></textarea>
+        </label>
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-danger" (click)="onOk()">Add</button>
+  <button type="button" [disabled]="!authorPublication.title" class="btn btn-danger" (click)="onOk()">Add</button>
   <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
 </div>

@@ -3,12 +3,13 @@ export class AuthorPublication{
     constructor(title:string, body:string, date:Date){
         this.title = title;
         this.body = body;
-        this.date = date
+        this.publicationDate = date;
     }
 
     title: string;
     body: string;
-    date: Date;
+    publicationDate: Date;
+    authorId: string
 }
 
 export class AuthorPublicationResolve{
@@ -20,4 +21,14 @@ export class AuthorPublicationResolve{
 
     authorPublicationList: AuthorPublication[];
     authorId: string;
+}
+
+export class PaginatedAuthorPublicationResult{
+
+    constructor(result:any, lastKey:any){
+        this.result = result;
+        this.lastKey = lastKey;
+    }
+    result: any;
+    lastKey: any;
 }

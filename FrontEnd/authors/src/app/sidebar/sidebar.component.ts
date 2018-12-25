@@ -10,6 +10,7 @@ import { SidebarService } from './sidebar.service';
 })
 export class SidebarComponent implements OnInit {
   authorList: Author[];
+  searchTitle: string;
 
   constructor(private sc: SidebarService, private router: Router) { }
 
@@ -26,5 +27,9 @@ export class SidebarComponent implements OnInit {
 
   showPublicationList(authorId: string){
     this.router.navigate(["/publication-list/"], {queryParams: {authorId: authorId}})
+  }
+
+  getPublicationListByTitle(){
+    this.router.navigate(["/publication-browser/"], {queryParams: {title: this.searchTitle}})
   }
 }

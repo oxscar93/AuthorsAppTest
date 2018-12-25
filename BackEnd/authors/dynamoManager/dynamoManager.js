@@ -56,9 +56,9 @@ module.exports = (TableName) => {
     new Promise((resolve, reject) => {
       dynamoDb.query({
         TableName,
-        IndexName: 'author_idx', // optional (if querying an index)
-        KeyConditionExpression: 'id = :value', // a string representing a constraint on the attribute
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        IndexName: 'author_idx',
+        KeyConditionExpression: 'id = :value', 
+        ExpressionAttributeValues: { 
           ':value': id
         },
       }, (err, result) => {
@@ -70,10 +70,7 @@ module.exports = (TableName) => {
         }
 
         if (result.Items.length == 0) {
-          return reject({
-            statusCode: 404,
-            code: 'Not found.',
-          });
+          return resolve([]);
         }
 
         return resolve(result.Items);
@@ -85,9 +82,9 @@ module.exports = (TableName) => {
     new Promise((resolve, reject) => {
       dynamoDb.query({
         TableName,
-        IndexName: 'author_publication_idx', // optional (if querying an index)
-        KeyConditionExpression: 'id = :value', // a string representing a constraint on the attribute
-        ExpressionAttributeValues: { // a map of substitutions for all attribute values
+        IndexName: 'author_publication_idx', 
+        KeyConditionExpression: 'id = :value', 
+        ExpressionAttributeValues: { 
           ':value': id
         },
         ScanIndexForward: sort
@@ -100,12 +97,8 @@ module.exports = (TableName) => {
         }
 
         if (result.Items.length == 0) {
-          return reject({
-            statusCode: 404,
-            code: 'Not found.',
-          });
+          return resolve([]);
         }
-        console.log(result.Items)
         return resolve(result.Items);
       });
     })
@@ -130,6 +123,38 @@ module.exports = (TableName) => {
       });
     })
   );
+
+  const retrieveAllByTitle = (title, rowsCount, lastKey) => {
+    var params= {
+      TableName,
+      IndexName: 'title_idx', 
+      KeyConditionExpression: 'title = :value', 
+      ExpressionAttributeValues: { 
+        ':value': decodeURIComponent(title)
+      },
+      Limit : rowsCount,
+    };
+    console.log(lastKey)
+    if (lastKey){
+      params.ExclusiveStartKey = lastKey;
+    }
+
+    return new Promise((resolve, reject) => {
+      dynamoDb.query(params, (err, result) => {
+        if (err) {
+          return reject({
+            statusCode: 500,
+            code: err.message,
+          });
+        }
+        if (result.Items.length == 0) {
+          return resolve([]);
+        }
+   
+        return resolve({result: result.Items, lastKey: result.LastEvaluatedKey});
+      });
+    })
+  };
 
   const remove = (id, publicationId) => (
     new Promise((resolve, reject) => {
@@ -157,6 +182,7 @@ module.exports = (TableName) => {
     remove,
     retrieveAll,
     retrieveOne,
-    retrieveSortedByDate
+    retrieveSortedByDate,
+    retrieveAllByTitle
   };
 };

@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { AuthorPublication } from './author-publication';
+import { AuthorPublication, PaginatedAuthorPublicationResult } from './author-publication';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -21,11 +21,19 @@ export class PublicationService {
               this.extractPublicationData).pipe(map(r => {
               return r;
             }));      
- }
+  }
+
+  addPublication(publication: AuthorPublication)  {   
+    return this.addtEntity("/add/", publication);
+  }
 
   private getEntity(resource: string, extractDataFunc: any) : Observable<Array<AuthorPublication>> {
       return this.http.get(this.base + resource, this.options)
         .pipe(map(extractDataFunc))
+  }
+
+  private addtEntity(resource: string, body: any) {
+    return this.http.post(this.base + resource, body, this.options);
   }
 
   private extractPublicationData(res: Response) {

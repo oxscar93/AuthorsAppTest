@@ -1,8 +1,19 @@
 <div class="sidebar-container"> 
-      <ul>
-        <li (click)="showPublicationList(author.id)" *ngFor="let author of authorList">
-          <p>{{author.name}}</p>
-          <span>{{author.email}}</span>
-        </li>        
-      </ul>
+    <div class="container"> 
+    <div class="form-group mt-2">
+        <input type="text" class="form-control" [(ngModel)]="searchTitle" placeholder="Search By title">           
+    </div>
+    <div class="form-group">
+        <button class="btn btn-info btn-sm" [disabled]="!searchTitle" (click)="getPublicationListByTitle()">Search</button>           
+    </div>
+  </div>
+
+  <hr class="separator">
+
+    <ul>
+      <li (click)="showPublicationList(author.id)" *ngFor="let author of authorList">
+        <p>{{author.name}}</p>
+        <span>{{author.email}}</span>
+      </li>        
+    </ul>
 </div>

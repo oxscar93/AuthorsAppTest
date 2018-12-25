@@ -20,10 +20,10 @@ const authorUpdated  = {
 var authorIdTest = "";
 var publicationIdTest = "";
 
-describe('POST /ADD-AUTHOR', function() {
-    it('add author', function(done) {
+describe('POST /ADD', function() {
+    it('add', function(done) {
         tester
-        .post('/add-author')
+        .post('/add')
         .send(author)
         .set('Accept', 'application/json')
         .expect(200)
@@ -64,10 +64,10 @@ describe('POST /ADD-AUTHOR', function() {
     });
  }); 
 
- describe('PUT /UPDATE-AUTHOR', function() {
-    it('update author', function(done) {
+ describe('PUT /UPDATE', function() {
+    it('update', function(done) {
         tester
-        .put('/update-author/' + authorIdTest)
+        .put('/update/' + authorIdTest)
         .send(authorUpdated)
         .set('Accept', 'application/json')
         .expect(200)
@@ -79,10 +79,10 @@ describe('POST /ADD-AUTHOR', function() {
     });
  }); 
 
- describe('DELETE /DELETE-AUTHOR', function() {
-    it('delete author', function(done) {
+ describe('DELETE /DELETE', function() {
+    it('delete', function(done) {
         tester
-        .delete('/del-author/' + authorIdTest + "/" + publicationIdTest)
+        .delete('/del/' + authorIdTest + "/" + publicationIdTest)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function(err, res) {

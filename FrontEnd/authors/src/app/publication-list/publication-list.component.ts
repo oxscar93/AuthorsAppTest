@@ -23,15 +23,11 @@ export class PublicationListComponent implements OnInit {
     this.setDefaultData();
   }
 
-  addPublication(){
-    this.publicationDialogService.addPublication(null);
-  }
-
   setDefaultData(){
     this.route.data
     .subscribe((data: { entity: AuthorPublicationResolve }) => {
       this.publicationList = data.entity.authorPublicationList
-      this.authorId = data.entity.authorId
+      this.authorId = data.entity.authorId;
     });
   }
 
@@ -48,5 +44,20 @@ export class PublicationListComponent implements OnInit {
     }
 
     this.shouldSortByDesc = sortByDesc;
+  }
+
+  addPublication(){
+    this.publicationDialogService.addPublication().then(
+      (result) => {
+        debugger;
+          result.authorId = this.authorId;
+          this.publicationService.addPublication(result)
+          .subscribe(result => {
+           this.publicationService.getPublicationList(this.authorId)
+           .subscribe(result => {
+            this.publicationList = result;
+          });
+        });;
+      });
   }
 }

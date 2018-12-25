@@ -1,16 +1,18 @@
 'use strict';
-const addAuthor = require('./api/authors/create');
+const add = require('./api/authors/create');
 const getAuthorList = require('./api/authors/get');
 const getPublicationList = require('./api/authors/getAllById');
+const getPublicationListByTitle = require('./api/authors/getAllByTitle');
 const getAuthor = require('./api/authors/retrieveOne');
-const updateAuthor = require('./api/authors/update');
-const delAuthor = require('./api/authors/remove');
+const update = require('./api/authors/update');
+const del = require('./api/authors/remove');
 
 module.exports = {
-  addAuthor,
+  add,
   getAuthor,
   getPublicationList,
+  getPublicationListByTitle,
   getAuthorList,
-  updateAuthor,
-  delAuthor
+  update,
+  del
 };
