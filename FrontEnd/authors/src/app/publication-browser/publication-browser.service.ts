@@ -4,7 +4,8 @@ import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { environment } from 'src/environments/environment';
-import { PaginatedAuthorPublicationResult, AuthorPublication } from '../publication-list/author-publication';
+import { PaginatedAuthorPublicationResult } from '../publication-list/author-publication';
+import { AuthorPublicationBrowser } from './publication-browser';
 
 @Injectable()
 export class PublicationBrowserService {
@@ -35,7 +36,7 @@ export class PublicationBrowserService {
     
     if (body.result){
         body.result.forEach(el => {      
-            publicationList.push(new AuthorPublication(el.title, el.body, new Date(el.date)));      
+            publicationList.push(new AuthorPublicationBrowser(el.title, el.body, new Date(el.date), el.name));      
           });
     }
   

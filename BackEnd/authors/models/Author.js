@@ -1,9 +1,7 @@
 // dependencies
 const uuid = require('uuid/v4');
-const moment = require('moment');
-
 // libs
-const dynamoManager = require('../dynamoManager/dynamoManager')("author");
+const dynamoManager = require('../dynamoManager/dynamoManager')(process.env.AUTHORS_TABLE);
 
 // static values
 const typeConfig = {
@@ -117,7 +115,7 @@ Author.retrieveAll = searchParams => (
 );
 
 Author.retrieveAllByTitle = (title, lastKey) => (
-  dynamoManager.retrieveAllByTitle(title, 5, lastKey)
+  dynamoManager.retrieveAllByTitle(title, 3, lastKey)
 
   .then(searchResult => (
     Promise.resolve(Object.assign(searchResult, {

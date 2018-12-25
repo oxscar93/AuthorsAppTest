@@ -25,8 +25,8 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  showPublicationList(authorId: string){
-    this.router.navigate(["/publication-list/"], {queryParams: {authorId: authorId}})
+  showPublicationList(authorId: string, authorName: string){
+    this.router.navigate(["/publication-list/"], {queryParams: {authorId: authorId, authorName: authorName}})
   }
 
   getPublicationListByTitle(){

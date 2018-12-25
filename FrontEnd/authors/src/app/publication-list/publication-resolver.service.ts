@@ -19,10 +19,12 @@ export class PublicationResolverService implements Resolve<AuthorPublicationReso
  
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<AuthorPublicationResolve> | Observable<never> {
     let id= route.queryParams['authorId']
+    let name= route.queryParams['authorName']
+
     return this.sc.getPublicationList(id).pipe(
       mergeMap(publicationList => {
         if (publicationList) {
-          return of(new AuthorPublicationResolve(publicationList, id));
+          return of(new AuthorPublicationResolve(publicationList, id, name));
         } else { 
           return EMPTY;
         }

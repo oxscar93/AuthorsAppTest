@@ -130,7 +130,7 @@ module.exports = (TableName) => {
       IndexName: 'title_idx', 
       KeyConditionExpression: 'title = :value', 
       ExpressionAttributeValues: { 
-        ':value': decodeURIComponent(title)
+        ':value': title
       },
       Limit : rowsCount,
     };

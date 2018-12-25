@@ -12,6 +12,8 @@
 # Happy Coding!
 
 service: authors # NOTE: update this with your service name
+  
+
 profile: default
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -89,8 +91,9 @@ plugins:
 provider:
   name: aws
   runtime: nodejs8.10
-  stage: dev
-  region: us-east-1 
+  stage: local
+  region: localhost
+  endpoint: http://localhost:8000
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -103,7 +106,7 @@ provider:
       Resource:
         - { "Fn::GetAtt": ["TodosDynamoDBTable", "Arn" ] }
   environment:
-    AUTHORS_TABLE: ${self:custom.tableName}
+    AUTHORS_TABLE: author
 
 functions:
   create:

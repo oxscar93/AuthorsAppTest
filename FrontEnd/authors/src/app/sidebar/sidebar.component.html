@@ -11,7 +11,7 @@
   <hr class="separator">
 
     <ul>
-      <li (click)="showPublicationList(author.id)" *ngFor="let author of authorList">
+      <li (click)="showPublicationList(author.id, author.name)" *ngFor="let author of authorList">
         <p>{{author.name}}</p>
         <span>{{author.email}}</span>
       </li>        

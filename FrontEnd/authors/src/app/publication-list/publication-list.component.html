@@ -1,9 +1,10 @@
 <div class="container mt-5">
+        
     <div class="col-md-8">
-        <div>      
+        <div class="text-center"><h4>Publications of {{authorName}}</h4></div>
+        <div class="mt-4">    
             <nav>
-                <div class="form-group">
-                    <button  type="button" class="btn btn-danger mr-1" (click)="addPublication()">Add Publication</button>   
+                <div class="form-group"> 
                     <button type="button" class="btn btn-success" (click)="getPublicationListSortedByDate(!shouldSortByDesc)">{{sortOrderBtnTitle}}</button>                         
                 </div>
            </nav>      
@@ -20,7 +21,3 @@
         </div>
     </div>
 </div>
-
-<ng-template publicationDialog>
-    <app-publication-dialog></app-publication-dialog>
-</ng-template>

@@ -5,11 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { PublicationListComponent } from './publication-list/publication-list.component';
-import { PublicationDialogComponent } from './publication-dialog/publication-dialog.component';
-import { DialogState } from './_models/dialog-state';
-import { PublicationTemplateDirective } from './publication-dialog/publication-dialog.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PublicationDialogService } from './publication-dialog/publication-dialog.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SidebarService } from './sidebar/sidebar.service';
 import { HttpModule } from '@angular/http';
@@ -24,8 +20,6 @@ import { PublicationBrowserResolverService } from './publication-browser/publica
     AppComponent,
     SidebarComponent,
     PublicationListComponent,
-    PublicationDialogComponent,
-    PublicationTemplateDirective,
     PublicationBrowserComponent
   ],
   imports: [
@@ -36,14 +30,10 @@ import { PublicationBrowserResolverService } from './publication-browser/publica
     HttpModule,
     FormsModule
   ],
-  exports: [
-    PublicationTemplateDirective
-  ],
-  providers: [DialogState, 
+  providers: [ 
               PublicationService,
               PublicationResolverService,
               SidebarService,
-              PublicationDialogService,
               PublicationBrowserResolverService,
               PublicationBrowserService],
 

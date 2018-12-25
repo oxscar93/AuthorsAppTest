@@ -5,7 +5,7 @@ const ErrorHandler = require('../../../handlers/error.handler');
 module.exports = (event, context, callback) => {
   const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body || undefined;
 
-  Author.retrieveAllByTitle(event.pathParameters.title, 
+  Author.retrieveAllByTitle(decodeURIComponent(event.pathParameters.title), 
                             body)
     .then((result) => {
       callback(null, {

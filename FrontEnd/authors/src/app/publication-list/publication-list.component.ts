@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { PublicationDialogService } from '../publication-dialog/publication-dialog.service';
+import { Component, OnInit } from '@angular/core';;
 import { PublicationService } from './publication.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorPublication, AuthorPublicationResolve } from './author-publication';
@@ -14,10 +13,10 @@ export class PublicationListComponent implements OnInit {
   shouldSortByDesc = false;
   sortOrderBtnTitle = "Oldests First";
   authorId: string;
+  authorName: string;
 
   constructor(private route:ActivatedRoute,
-              private publicationService: PublicationService,
-              private publicationDialogService : PublicationDialogService) { }
+              private publicationService: PublicationService) { }
 
   ngOnInit() {
     this.setDefaultData();
@@ -28,6 +27,7 @@ export class PublicationListComponent implements OnInit {
     .subscribe((data: { entity: AuthorPublicationResolve }) => {
       this.publicationList = data.entity.authorPublicationList
       this.authorId = data.entity.authorId;
+      this.authorName = data.entity.name
     });
   }
 
@@ -44,20 +44,5 @@ export class PublicationListComponent implements OnInit {
     }
 
     this.shouldSortByDesc = sortByDesc;
-  }
-
-  addPublication(){
-    this.publicationDialogService.addPublication().then(
-      (result) => {
-        debugger;
-          result.authorId = this.authorId;
-          this.publicationService.addPublication(result)
-          .subscribe(result => {
-           this.publicationService.getPublicationList(this.authorId)
-           .subscribe(result => {
-            this.publicationList = result;
-          });
-        });;
-      });
   }
 }

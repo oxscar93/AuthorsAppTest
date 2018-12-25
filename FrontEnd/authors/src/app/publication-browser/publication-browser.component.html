@@ -2,6 +2,7 @@
     <div class="card mt-2" *ngFor="let publication of publicationList">
         <div class="card-body">
         <h5 class="card-title">{{publication.title}}</h5>
+        <p class="card-text">Author: {{publication.author}}</p>
         <h6 class="card-subtitle mb-2 text-muted">Publication Date: {{publication.publicationDate.toDateString()}}</h6>
         <p class="card-text">{{publication.body}}</p>
         </div>

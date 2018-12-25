@@ -14,13 +14,15 @@ export class AuthorPublication{
 
 export class AuthorPublicationResolve{
 
-    constructor(authorPublicationList:AuthorPublication[], authorId: string){
+    constructor(authorPublicationList:AuthorPublication[], authorId: string, authorName: string){
         this.authorPublicationList = authorPublicationList;
         this.authorId = authorId;
+        this.name = authorName
     }
 
     authorPublicationList: AuthorPublication[];
     authorId: string;
+    name :string;
 }
 
 export class PaginatedAuthorPublicationResult{
