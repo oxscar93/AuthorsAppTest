@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 * Install Node JS from official page
 * Install Angular-CLI and TypeScript Compiler to run the front end locally from official pages
-
+* Install AWS-CLI and configure aws credentials (for local environment any dummy credential can be used)
 * Install serverless framework:
 
 ```
@@ -41,7 +41,8 @@ Run the project:
 
 * After installing node dependencies, first run the backend service with the following command (inside Backend/authors folder):
 
-	With this command, the server and dynamo db local database will be automatically started with test data.
+	With this command, the server and dynamo db local database will be automatically started with test data. 
+	Make sure you have configured aws credentials with aws-cli in order to have access to dynamo db database
 
 ```
 serverless offline start --migrate

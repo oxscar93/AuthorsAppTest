@@ -1,8 +1,9 @@
 const aws = require('aws-sdk'); // eslint-disable-line
 
+
 const dynamoDb = new aws.DynamoDB.DocumentClient({
-    region: 'localhost',
-    endpoint: 'http://localhost:8000',
+    region: process.env.region,
+    endpoint: process.env.ENDPOINT,
   });
 
 // internal functions

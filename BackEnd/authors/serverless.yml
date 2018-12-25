@@ -93,7 +93,7 @@ provider:
   runtime: nodejs8.10
   stage: local
   region: localhost
-  endpoint: http://localhost:8000
+ 
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -107,6 +107,7 @@ provider:
         - { "Fn::GetAtt": ["TodosDynamoDBTable", "Arn" ] }
   environment:
     AUTHORS_TABLE: author
+    ENDPOINT: http://localhost:8000
 
 functions:
   create:
