@@ -28,13 +28,19 @@ npm install -g serverless
 npm install
 ```
 
+* Install dynamo db local db with the following command (inside Backend/authors):
+
+```
+serverless dynamodb install
+```
+
 Run the project:
 
 * After installing node dependencies, first run the backend service with the following command (inside Backend/authors folder):
 
 	With this command, the server and dynamo db local database will be automatically started with test data. 
 	Make sure you have configured aws credentials with aws-cli in order to have access to dynamo db database
-
+	
 ```
 serverless offline start --migrate
 ```
