@@ -11,20 +11,11 @@ These instructions will get you a copy of the project up and running on your loc
 * Install Node JS from official page
 * Install Angular-CLI and TypeScript Compiler to run the front end locally from official pages
 * Install AWS-CLI and configure aws credentials (for local environment any dummy credential can be used)
+* Verify you have installed Java SDK (to get dynamo db local working)
 * Install serverless framework:
 
 ```
 npm install -g serverless
-```
-
-* Install serverless plugins to run the backend and dynamo db locally:
-
-```
-npm install --save serverless-dynamodb-local
-```
-
-```
-npm install serverless-offline
 ```
 
 ### Installing
@@ -57,10 +48,10 @@ ng serve
 
 ## Running the tests
 
-To run Backend tests, please ensure you have the server up and execute the following command (inside Backend/authors/api/tests):
+To run Backend tests, please ensure you have the server up and execute the following command (inside Backend/authors):
 
 ```
-mocha api-tests.js
+npm test
 ```
 
 ## Deployment

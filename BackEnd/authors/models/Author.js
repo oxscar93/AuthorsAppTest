@@ -10,7 +10,7 @@ const typeConfig = {
   title: 'regexp',
 };
 
-const Author = ({ id, name, email, title, body, publicationId, date }) => {
+const Author = ({ id, name, email, title, body, publicationId, date, authorBirthDate }) => {
   const getInfo = () => ({
     id,
     name,
@@ -18,7 +18,8 @@ const Author = ({ id, name, email, title, body, publicationId, date }) => {
     title,
     date,
     body,
-    publicationId
+    publicationId,
+    authorBirthDate
   });
 
   return {
@@ -55,10 +56,11 @@ Author.update = (id, newValues) => (
   ))
 );
 
-Author.create = ({ authorId, name, email, title, body, publicationDate}) => {
+Author.create = ({ authorId, name, email, title, body, publicationDate, birthDate}) => {
   const id = !authorId ? uuid() : authorId;
   const publicationId = uuid();
   const date = new Date(publicationDate).getTime();
+  const authorBirthDate = new Date(birthDate);
 
   return dynamoManager
 
@@ -69,7 +71,8 @@ Author.create = ({ authorId, name, email, title, body, publicationDate}) => {
       title,
       date,
       body,
-      publicationId
+      publicationId,
+      authorBirthDate
     })
 
     .then(author => (

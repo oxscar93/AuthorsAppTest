@@ -6,7 +6,8 @@ const author = {
     "email": "asd",	   
     "title": "something new",
     "body": "a body test",
-    "publicationDate": "2001-07-07T03:00:00.000Z"
+    "publicationDate": "2001-07-07T03:00:00.000Z",
+    "authorBirthDate": "1992-07-07T03:00:00.000Z"
 };
 
 const authorUpdated  = {
@@ -14,7 +15,8 @@ const authorUpdated  = {
     "email": "asd",
     "title": "title updated",
     "body": "a body test",
-    "publicationDate": "2001-07-07T03:00:00.000Z"
+    "publicationDate": "2001-07-07T03:00:00.000Z",
+    "authorBirthDate": "1992-07-07T03:00:00.000Z"
 };
 
 var authorIdTest = "";
