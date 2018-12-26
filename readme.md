@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 * Install Node JS from official page
 * Install Angular-CLI and TypeScript Compiler to run the front end locally from official pages
-* Install AWS-CLI and configure aws credentials (for local environment any dummy credential can be used)
+* Install AWS-CLI and configure aws credentials (for local environment any dummy credential can be used, see notes section for further details)
 * Verify you have installed Java SDK (to get dynamo db local working)
 * Install serverless framework:
 
@@ -67,6 +67,16 @@ Some main variables are:
 
 ## Notes
 
-To test pagination, please search "Global warming" as according with test data. 
-The search by title criteria will work only with equal comparation of some title, in order to avoid using scan method and improve performance. 
+* To test pagination, please search "Global warming" as according with test data. 
+    The search by title criteria will work only with equal comparation of some title, in order to avoid using scan method and improve performance. 
 
+* To configure aws credentials, you can follow the next steps taken from aws official docs:
+
+	Run aws configure
+
+	The following information will be asked: 
+
+	AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE -- you can put this literal example
+	AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY -- you can put this literal example
+	Default region name [None]: local
+	Default output format [None]: ENTER
