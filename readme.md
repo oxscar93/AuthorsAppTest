@@ -62,7 +62,7 @@ npm test
 
 ## Deployment
 
-* Default Ports:
+* Default Local Ports:
 
 	* Dynamo Db: 8000
 	* Node Js service: 3000
