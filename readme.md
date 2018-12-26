@@ -76,7 +76,7 @@ Some main variables are:
 
 	The following information will be asked: 
 
-	AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE -- you can put this literal example
-	AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY -- you can put this literal example
-	Default region name [None]: local
-	Default output format [None]: ENTER
+	* AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE -- you can put this literal example
+	* AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY -- you can put this literal example
+	* Default region name [None]: local
+	* Default output format [None]: ENTER
