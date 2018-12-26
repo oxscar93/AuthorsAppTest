@@ -1,0 +1,209 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: authors # NOTE: update this with your service name
+  
+
+profile: default
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+custom:
+  tableName: 'authors-${self:provider.stage}'
+  dynamodb:
+    start:
+      migrate: true
+      seed: true
+    seed:
+      domain:
+        sources:
+          - table: author
+            sources: [./assets/author.json]
+
+resources:
+  Resources:
+    authors:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: author
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: 'S'
+          - AttributeName: date
+            AttributeType: 'N'
+          - AttributeName: publicationId
+            AttributeType: 'S'
+          - AttributeName: title
+            AttributeType: 'S'
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: publicationId
+            KeyType: RANGE
+        ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+          - IndexName: author_publication_idx
+            KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+            - AttributeName: date
+              KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
+          - IndexName: author_idx
+            KeySchema:
+            - AttributeName: id
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
+          - IndexName: title_idx
+            KeySchema:
+            - AttributeName: title
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: '1'
+              WriteCapacityUnits: '1'
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: local
+  region: localhost
+ 
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["TodosDynamoDBTable", "Arn" ] }
+  environment:
+    AUTHORS_TABLE: author
+    ENDPOINT: http://localhost:8000
+
+functions:
+  create:
+    handler: handler.add
+    events:
+    
+      - http:
+          path: add
+          method: post
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  retrieve:
+    handler: handler.getAuthorList
+    events:
+      - http:
+          path: get-author-list
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+  
+  retrieveOne:
+    handler: handler.getAuthor
+    events:
+      - http:
+          path: get-author/{id}
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  retrieveById:
+    handler: handler.getPublicationList
+    events:
+      - http:
+          path: get-publication-list/{id}/{sort}
+          method: get
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+  retrieveByTitle:
+    handler: handler.getPublicationListByTitle
+    events:
+      - http:
+          path: get-publication-list-by-title/{title}
+          method: post
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  remove:
+    handler: handler.del
+    events:
+      - http:
+          path: del/{id}/{publicationId}
+          method: delete
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+
+  update:
+    handler: handler.update
+    events:
+      - http:
+          path: update/{id}
+          method: put
+          integration: lambda-proxy
+          cors:
+            origins:
+              - '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date           

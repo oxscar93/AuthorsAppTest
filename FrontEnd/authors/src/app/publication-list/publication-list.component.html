@@ -1,0 +1,23 @@
+<div class="container mt-5">
+        
+    <div class="col-md-8">
+        <div class="text-center"><h4>Publications of {{authorName}}</h4></div>
+        <div class="mt-4">    
+            <nav>
+                <div class="form-group"> 
+                    <button type="button" class="btn btn-success" (click)="getPublicationListSortedByDate(!shouldSortByDesc)">{{sortOrderBtnTitle}}</button>                         
+                </div>
+           </nav>      
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card mt-2" *ngFor="let publication of publicationList">
+            <div class="card-body">
+            <h5 class="card-title">{{publication.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Publication Date: {{publication.publicationDate.toDateString()}}</h6>
+            <p class="card-text">{{publication.body}}</p>
+            </div>
+        </div>
+    </div>
+</div>

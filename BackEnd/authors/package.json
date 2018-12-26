@@ -1,0 +1,23 @@
+{
+  "name": "authors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "dependencies": {
+    "aws-sdk": "^2.382.0",
+    "dotenv": "^6.2.0",
+    "moment": "^2.23.0",
+    "serverless-dynamodb-local": "^0.2.30",
+    "supertest": "^3.3.0",
+    "uuid": "^3.3.2",
+    "serverless-offline": "^3.31.3"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}

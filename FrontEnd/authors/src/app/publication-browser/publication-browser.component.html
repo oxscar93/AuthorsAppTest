@@ -1,0 +1,18 @@
+<div class="col-md-8">
+    <div class="card mt-2" *ngFor="let publication of publicationList">
+        <div class="card-body">
+        <h5 class="card-title">{{publication.title}}</h5>
+        <p class="card-text">Author: {{publication.author}}</p>
+        <h6 class="card-subtitle mb-2 text-muted">Publication Date: {{publication.publicationDate.toDateString()}}</h6>
+        <p class="card-text">{{publication.body}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-8 text-center mt-5" *ngIf="!publicationList || publicationList.length == 0">
+    <label class="text-info">There are no results to display</label>
+</div>
+
+<div class="col-md-8 text-center" *ngIf="paginationLastKey">
+    <a class="pointer text-primary" (click)="getPublicationListByTitle()">See more results</a>
+</div>
