@@ -62,13 +62,25 @@ npm test
 
 ## Deployment
 
-By default, the project was configured to run locally, but you can change variables via serverless.yml file. 
+* Default Ports:
 
-Some main variables are:
+	* Dynamo Db: 8000
+	* Node Js service: 3000
+	* FrontEnd App; 4200
 
-* dynamo db region and enpoint. 
-* dynamo db table name. 
-* lambda regions and stages
+* BackEnd: 
+	By default, the project was configured to run locally, but you can change variables via serverless.yml file. 
+
+	Some main variables are:
+
+	* dynamo db region and enpoint. 
+	* dynamo db table name. 
+	* lambda regions and stages
+	
+* FrontEnd:
+	By default, the project was configured to run locally, but you can change service endpoint via environment.ts file.
+
+
 
 
 ## Notes
